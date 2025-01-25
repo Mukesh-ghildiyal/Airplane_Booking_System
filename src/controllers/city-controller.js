@@ -24,8 +24,47 @@ async function createCity(req, res) {
         return res.status(error.statusCode)
             .json(ErrorResponse);
     }
+
 }
 
+/**
+* DELETE :/airplane/:id  
+*/
+
+async function destroyCity(req, res) {
+    try {
+        const city = await CityService.destroyCity(req.params.id);
+        SuccessResponse.data = city;
+        return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse)
+    } catch (error) {
+        ErrorResponse.message = "Something went wrong in city controller";
+        ErrorResponse.error = error;
+        return res.status(error.statusCode)
+            .json(ErrorResponse);
+    }
+}
+
+//update
+async function updateCity(req, res) {
+    try {
+        const city = await CityService.updateCity(req.params.id, req.body);
+        SuccessResponse.data = city;
+        return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse)
+    } catch (error) {
+        ErrorResponse.message = "Something went wrong in city controller";
+        ErrorResponse.error = error;
+        return res.status(error.statusCode)
+            .json(ErrorResponse);
+    }
+}
+
+
 module.exports = {
-    createCity
+    createCity,
+    destroyCity,
+    updateCity
 }

@@ -28,7 +28,7 @@ async function createAirplane(req, res) {
 
 /**
  * GET :/airplane
- * req-body:{ modelNumber :"airbus420" , capaciyt :200}
+ * req-body:{ modelNumber :"airbus420" , capacity :200}
  */
 
 async function getAirplanes(req, res) {
@@ -85,9 +85,26 @@ async function destroyAirplane(req, res) {
     }
 }
 
+//update
+async function updateAirplane(req, res) {
+    try {
+        const airplane = await AirplaneService.updateAirplane(req.params.id, req.body);
+        SuccessResponse.data = airplane;
+        return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse)
+    } catch (error) {
+        ErrorResponse.message = "Something went wrong in airplane controller";
+        ErrorResponse.error = error;
+        return res.status(error.statusCode)
+            .json(ErrorResponse);
+    }
+}
+
 module.exports = {
     createAirplane,
     getAirplanes,
     getAirplane,
-    destroyAirplane
+    destroyAirplane,
+    updateAirplane
 }
